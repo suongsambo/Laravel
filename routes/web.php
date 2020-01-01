@@ -18,8 +18,3 @@ Route::get('/', function () {
 Route::get('/about', function () {
     return 'sambo';
 });
-
-Route::get('/service' function () {
-    return  'sambo1';
-
-});
