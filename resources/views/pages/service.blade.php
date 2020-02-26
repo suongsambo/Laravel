@@ -1,20 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('masterpage.template')
+<h1>Service Pages</h1>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Service Page PHP</title>
-</head>
+@section('header')
+    <h1>Header Service page</h1>
+@endsection
 
-<body>
-    <h1>Laravel Service Page</h1>
-    <p>Lorem ipsum dolor sit amet.</p>
-    <p>Lorem ipsum dolor sit amet.</p>
-    <p>Lorem ipsum dolor sit amet.</p>
-    <p>Lorem ipsum dolor sit amet.</p>
+@section('left')
+    <h1>Left Service page</h1>
+@endsection
 
-</body>
+@section('right')
+    <h1>right Service Page</h1>
+@endsection
 
-</html>
