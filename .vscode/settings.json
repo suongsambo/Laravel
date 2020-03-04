@@ -2,5 +2,6 @@
     "cSpell.ignoreWords": [
         "rout",
         "route"
-    ]
+    ],
+    "git.ignoreLimitWarning": true
 }

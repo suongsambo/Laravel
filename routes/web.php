@@ -2,6 +2,7 @@
 
 use App\Article;
 use App\Product;
+use App\Auth;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /*
@@ -19,92 +20,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/about', function () {
-    return 'sambo';
+Route::prefix('system')->group(function () {
+    Route::get('/login', 'Admin\LoginController@Index')->name('login');
+    Route::post('/login', 'Admin\LoginController@auth');
 });
 
-Route::get('/select', function () {
-    $articles = Article::all();
-    foreach ($articles as $articles) {
-        echo $articles->title . "|" .
-            $articles->description . "<hr/>";
-    }
+Route::group(['prefix' => 'system', 'middleware' => 'auth'], function () {
+    Route::get('dashboard', 'Admin\DashboardController@Index');
+    Route::get('user', 'Admin\UserController@Index');
+    Route::get('user/create', 'Admin\UserController@Create');
+    Route::post('user', 'Admin\UserController@Store');
+    Route::get('/logout', 'Admin\LoginController@logout');
+    Route::get('/category', 'Admin\CategoryController@Index');
+    Route::get('/category/create', 'Admin\CategoryController@Create');
 });
-
-
-Route::get('/update', function () {
-    $article =  Article::find(6);
-    $article->title = 'updated title 2';
-    $article->description = 'updated description 2';
-    $article->save();
-});
-
-Route::get('/insert', function () {
-    $article = new Article();
-    $article->title = 'insert title 2020';
-    $article->description = 'insert description 2020';
-    $article->save();
-});
-
-Route::get('/update', function () {
-    $article =  Article::find(9);
-    $article->title = 'updated title 2';
-    $article->description = 'updated description 2';
-    $article->save();
-});
-
-Route::get('/delete', function () {
-    $article = Article::find(2);
-    $article->delete();
-});
-
-/**
- * --------------------------------------
- * SoftDeletes
- *
- */
-
-Route::get('/read-trash', function () {
-    $articles = Article::onlyTrashed()->get();
-    foreach ($articles as $article) {
-        echo $article->id . ' | ' . $article->title . ' | ' . $article->description . '<hr />';
-    }
-});
-
-Route::get('/select-all', function () {
-    $articles = Article::withTrashed()->get();
-    foreach ($articles as $article) {
-        echo $article->id . ' | ' . $article->title . ' | ' . $article->description . '<hr />';
-    }
-});
-
-Route::get('/restore', function () {
-    Article::onlyTrashed()->where('id', 3)->restore();
-});
-
-
-
-Route::get('/force-delete', function () {
-    Article::onlyTrashed()->where('id', 3)->forceDelete();
-});
-
-
-
-/**
- * ----------------------------------------
- * Products Table
- */
-
-Route::get('/insert-product', function () {
-    $product = new Product();
-    $product->product_id = 'insert products';
-    $product->product_name = 'insert  product name';
-    $product->price = 123;
-    $product->qty = 123;
-    $product->save();
-});
-
-
-Route::get('system/layout', 'Admin\DashboardController@Index');
-Route::get('login', 'Admin\LoginController@Index');
-Route::get('system/user', 'Admin\UserController@Index');
